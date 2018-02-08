@@ -123,7 +123,6 @@
      (else (pic (sub1 n) (cdr lat))))))
 (pic 1 '(a b))
 (pic 3 '(a b c d e))
-(pic 0 '(a))
 
 (define rempic
   (lambda (n lat)
@@ -146,3 +145,49 @@
        (else (cons (car lat) (no-nums (cdr lat)))))))))
 (no-nums '(5 pears 6 prums 9 dates))
  
+(define all-nums
+  (lambda (lat)
+    (cond
+     ((null? lat) '())
+     (else
+      (cond
+       ((number? (car lat)) (cons (car lat) (all-nums (cdr lat))))
+       (else (all-nums (cdr lat))))))))
+(all-nums '(5 pears 6 prums 9 dates))
+
+(define eqan?
+  (lambda (a1 a2)
+    (cond
+     ((and (number? a1) (number? a2)) (= a1 a2))
+     ((or (number? a1) (number? a2)) #f)
+     (else (eq? a1 a2)))))
+(eqan? 1 2)
+(eqan? 1 1)
+(eqan? 1 'a)
+(eqan? 'a 'a)
+
+(define occur
+  (lambda (lat)
+    (cond
+     ((null? lat) 0)
+     (else
+      (cond
+       ((atom? (car lat)) (add1 (occur (cdr lat))))
+       (else (occur (cdr lat))))))))
+
+(occur '(a 2 3 (b c)))
+
+(define one?
+  (lambda (n)
+    (cond
+     ((zero? n) #f)
+     (else (zero? (sub1 n))))))
+(one? 2)
+(one? 0)
+
+(define rempick
+  (lambda (n lat)
+    (cond
+     ((one? n) (cdr lat))
+     (else (cons (car lat) (rempick (sub1 n) (cdr lat)))))))
+(rempick 3 '(lemon meringue salty pie))
