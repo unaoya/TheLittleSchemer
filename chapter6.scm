@@ -61,3 +61,17 @@
     (cons '() n)))
 (edd1 '())
 (edd1 (edd1 (edd1 '())))
+
+
+(define zub1
+  (lambda (n)
+    (cdr n)))
+(zub1 '(() () ()))
+
+(define o+
+  (lambda (n m)
+    (cond
+     ((null? m) n)
+     (else (edd1 (o+ n (zub1 m)))))))
+
+(o+ '(() ()) '(() () ()))
